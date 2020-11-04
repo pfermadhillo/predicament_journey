@@ -52,15 +52,21 @@ LD.Player = {
         LD.Player.player.setCollideWorldBounds(true);
         LD.Player.player.setSize(imgSize.x*0.9,imgSize.y*0.9).setOffset(imgSize.x*0.05,imgSize.y*0.05);   // actual size 100,150
 
-        
+        const start = LD.Maps.tileSize;    
+        const bounds = LD.Maps.getBounds();    
+
+        thisGame.cameras.main.setBounds(0, 0,
+                            bounds.x, 
+                            bounds.y);
+        thisGame.cameras.main.startFollow(LD.Player.player);
 
         // thisGame.cameras.main.setBounds(0, 0,
         //                     LD.Maps.map.widthInPixels, 
         //                     LD.Maps.map.heightInPixels);
-        thisGame.cameras.main.setBounds(0, 0,
-                            LD.Globals.gameWidth, 
-                            LD.Globals.gameHeight);
-        thisGame.cameras.main.startFollow(LD.Player.player);
+        // thisGame.cameras.main.setBounds(0, 0,
+        //                     LD.Globals.gameWidth, 
+        //                     LD.Globals.gameHeight);
+        // thisGame.cameras.main.startFollow(LD.Player.player);
 
         // var animKeys = ["boy","nothing"];
         // animKeys.forEach(LD.Player.buildAnims);

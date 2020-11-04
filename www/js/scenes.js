@@ -281,21 +281,75 @@ LD.Scenes.Play = new Phaser.Class({
         LD.Globals.game = this;
 
         LD.Globals.gameOver = false;
-        // LD.Globals.initKeys(this);
 
-        LD.Maps.map = this.make.tilemap({ key: 'map', tileWidth: 32, tileHeight: 32 });
+        var ts = LD.Maps.tileSize;
+        var tn = LD.Maps.tileNum;
+
+        // var colData = [];
+        // var mapData = [];
+        // for (var y = 0; y < tn.y; y++)
+        // {
+        //     //  Build a CollisionMap compatible array from the data
+        //     colData[y] = [];
+
+        //     for (var x = 0; x < tn.x; x++)
+        //     {
+        //         if (x === 0 || x === tn.x - 1 || y === 0 || y === tn.y - 1 || y === tn.y - 2)
+        //         {
+        //             mapData.push(1);
+        //             colData[y][x] = 1;
+        //         }
+        //         else
+        //         {
+        //             mapData.push(0);
+        //             colData[y][x] = 0;
+        //         }
+        //     }
+        // }
+
+        // // this.physics.world.setCollisionMap(32, colData);
+        // // var collisionMap = this.physics.world.collisionMap;
+
+        // var mapConfig = {
+        //     map: {
+        //         data: mapData,
+        //         width: tn.x,
+        //         height: tn.y,
+        //     },
+        //     tile: {
+        //         width: ts.x,
+        //         height: ts.y,
+        //         texture: 'tiles',
+        //         border: 1
+        //     }
+        // };
+
+        // //  Add our tilemap
+        // LD.Maps.map = this.make.tilemap(mapConfig);
+        
+        LD.Maps.map = this.make.tilemap({ key: 'map', tileWidth: ts.x, tileHeight: ts.y });
         var map = LD.Maps.map;
         tileset = map.addTilesetImage('tiles');
-        layer = map.createDynamicLayer('Level1', tileset);
-        layer.setScale(2);
-        layer.fill(14, 0, 0, 25, 25); // Body of the water
+        // layer = map.createDynamicLayer('Level1', tileset);
+        LD.Maps.layer = map.createBlankDynamicLayer('layer', tileset);
+        var layer = LD.Maps.layer;
+        layer.setScale(LD.Maps.tileScale.x,LD.Maps.tileScale.y);
+        layer.fill(14, 0, 0, tn.x, tn.y); // Body of the water
+
+        var bounds = LD.Maps.getBounds();
+        this.physics.world.setBounds(
+            -ts.x , 
+            -ts.y , 
+            bounds.x ,
+            bounds.y , 
+            true, true, true, true);
 
 
         map.setCollision([ 7, 14, 20, 48 ]);
 
-        var i;
-        startTileX = LD.Globals.randomNumber(1,5);
-        startTileY = LD.Globals.randomNumber(1,5);
+        var i,j;
+        startTileX = LD.Globals.randomNumber(1,2);
+        startTileY = LD.Globals.randomNumber(1,2);
             // Rounds down to nearest tile
         // var pointerTileX = map.worldToTileX(worldPoint.x);
         // var pointerTileY = map.worldToTileY(worldPoint.y);
@@ -310,16 +364,23 @@ LD.Scenes.Play = new Phaser.Class({
 
         console.log(start,player);
 
-        for(i=0;i<6;i++){
-            layer.putTileAt(28, startTileX+i, startTileY);
+        for(i=0;i<60;i++){
+            layer.putTileAt(56, startTileX+i, startTileY);
+            layer.putTileAt(57, startTileX, startTileY+i);
+            layer.putTileAt(58, startTileX+i, startTileY+3);
+            
+            for(j=1;j<10;j++){
+                layer.putTileAt(43, i+3, (j*5));
+            }
         }
 
         LD.Maps.fogLayer = map.createBlankDynamicLayer('fogLayer', tileset);
         var fogLayer = LD.Maps.fogLayer;
         // fogLayer.setScale(2);
-        fogLayer.fill(7, 1, 1, 25, 25); // Body of the water
+        var fn = {x:2*tn.x, y:2*tn.y};
+        fogLayer.fill(7, 1, 1, fn.x, fn.y); // Body of the water
         // fogLayer.setZ(1);
-
+        console.log(tn,fn,fogLayer, layer);
 
         // cursors.up.on('down', function () {
         //     if (player.body.blocked.down)

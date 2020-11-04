@@ -4,6 +4,9 @@ if(LD === undefined) {
 
 LD.Maps = {
 
+    tileSize:{x:32,y:32},
+    tileNum:{x:165,y:165},
+    tileScale:{x:2,y:2},
 
 	preload: function (thisGame){
 
@@ -73,7 +76,14 @@ LD.Maps = {
                 }
         });
 
-	}
+	},
+
+    getBounds: function(){
+        var bounds = {};
+        bounds.x = LD.Maps.tileSize.x * LD.Maps.tileNum.x;
+        bounds.y = LD.Maps.tileSize.y * LD.Maps.tileNum.y;
+        return bounds;
+    }
 };
 
 
