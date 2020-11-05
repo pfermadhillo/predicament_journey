@@ -284,48 +284,6 @@ LD.Scenes.Play = new Phaser.Class({
 
         var ts = LD.Maps.tileSize;
         var tn = LD.Maps.tileNum;
-
-        // var colData = [];
-        // var mapData = [];
-        // for (var y = 0; y < tn.y; y++)
-        // {
-        //     //  Build a CollisionMap compatible array from the data
-        //     colData[y] = [];
-
-        //     for (var x = 0; x < tn.x; x++)
-        //     {
-        //         if (x === 0 || x === tn.x - 1 || y === 0 || y === tn.y - 1 || y === tn.y - 2)
-        //         {
-        //             mapData.push(1);
-        //             colData[y][x] = 1;
-        //         }
-        //         else
-        //         {
-        //             mapData.push(0);
-        //             colData[y][x] = 0;
-        //         }
-        //     }
-        // }
-
-        // // this.physics.world.setCollisionMap(32, colData);
-        // // var collisionMap = this.physics.world.collisionMap;
-
-        // var mapConfig = {
-        //     map: {
-        //         data: mapData,
-        //         width: tn.x,
-        //         height: tn.y,
-        //     },
-        //     tile: {
-        //         width: ts.x,
-        //         height: ts.y,
-        //         texture: 'tiles',
-        //         border: 1
-        //     }
-        // };
-
-        // //  Add our tilemap
-        // LD.Maps.map = this.make.tilemap(mapConfig);
         
         LD.Maps.map = this.make.tilemap({ key: 'map', tileWidth: ts.x, tileHeight: ts.y });
         var map = LD.Maps.map;
@@ -348,31 +306,34 @@ LD.Scenes.Play = new Phaser.Class({
         map.setCollision([ 7, 14, 20, 48 ]);
 
         var i,j;
-        startTileX = LD.Globals.randomNumber(1,2);
-        startTileY = LD.Globals.randomNumber(1,2);
+        var startTile = LD.Maps.findStartTiles();
+
+        LD.Blocks.createNode(startTile.x,startTile.y);
+        // startTileX = LD.Globals.randomNumber(tn.x-5,tn.x+5);
+        // startTileY = LD.Globals.randomNumber(tn.y-5,tn.y+5);
             // Rounds down to nearest tile
         // var pointerTileX = map.worldToTileX(worldPoint.x);
         // var pointerTileY = map.worldToTileY(worldPoint.y);
 
         // Snap to tile coordinates, but in world space
         var start ={};
-        start.x = map.tileToWorldX(startTileX);
-        start.y = map.tileToWorldY(startTileY);
+        start.x = map.tileToWorldX(startTile.x);
+        start.y = map.tileToWorldY(startTile.y);
 
         // player = this.add.rectangle(start.x, start.y, 24, 38, 0xffff00);
         var player = LD.Player.createPlayer(start.x, start.y);
 
         console.log(start,player);
 
-        for(i=0;i<60;i++){
-            layer.putTileAt(56, startTileX+i, startTileY);
-            layer.putTileAt(57, startTileX, startTileY+i);
-            layer.putTileAt(58, startTileX+i, startTileY+3);
+        // for(i=0;i<60;i++){
+        //     layer.putTileAt(56, startTile.x+i, startTile.y);
+        //     layer.putTileAt(57, startTile.x, startTile.y+i);
+        //     layer.putTileAt(58, startTile.x+i, startTile.y+3);
             
-            for(j=1;j<10;j++){
-                layer.putTileAt(43, i+3, (j*5));
-            }
-        }
+        //     for(j=1;j<10;j++){
+        //         layer.putTileAt(43, i+1, (j*5));
+        //     }
+        // }
 
         LD.Maps.fogLayer = map.createBlankDynamicLayer('fogLayer', tileset);
         var fogLayer = LD.Maps.fogLayer;
@@ -382,47 +343,6 @@ LD.Scenes.Play = new Phaser.Class({
         // fogLayer.setZ(1);
         console.log(tn,fn,fogLayer, layer);
 
-        // cursors.up.on('down', function () {
-        //     if (player.body.blocked.down)
-        //     {
-        //         player.body.setVelocityY(-360);
-        //     }
-        // }, this);
-
-      
-//         var map = LD.Maps.create(this);
-//         var monsters = LD.Monsters.createMonsters();
-//         var voids = LD.Player.voids;
-
-//         // this.physics.world.setBounds(0, 0, 720, 720, true, true, true, true);
-//         this.physics.world.setBounds(0, 0, 
-//                         LD.Maps.map.widthInPixels, 
-//                         LD.Maps.map.heightInPixels, 
-//                         true, true, true, true);
-// // /
-
-//         // do once
-
-
-//         // LD.Messages.healthBarFullRect = new Phaser.Geom.Rectangle(250, 200, 300, 40);
-//         // LD.Messages.healthBarFullGraphics = this.add.graphics({ fillStyle: { color: 0x0000ff } });
-//         // LD.Messages.healthBarFullGraphics.fillRectShape(LD.Messages.healthBarFullRect);
-        
-//         // LD.Messages.healthBarCurrentRect = new Phaser.Geom.Rectangle(250, 200, 280, 40);
-//         // LD.Messages.healthBarCurrentGraphics = this.add.graphics({ fillStyle: { color: 0xFF0000 } });
-//         // LD.Messages.healthBarCurrentGraphics.fillRectShape(LD.Messages.healthBarCurrentRect);
-        
-//         LD.Messages.healthBarFullRect = this.add.rectangle(200, 200, 
-//                                                         LD.Messages.hpBarSize.width, 
-//                                                         LD.Messages.hpBarSize.height, 
-//                                                         0xff0000);
-//         LD.Messages.healthBarCurrentRect = this.add.rectangle(200, 200, 
-//                                                         LD.Messages.hpBarSize.width, 
-//                                                         LD.Messages.hpBarSize.height, 
-//                                                         0x0000ff);
-
-//         LD.Messages.healthBarFullRect.setZ(2);
-//         LD.Messages.healthBarCurrentRect.setZ(3);
 
         LD.Globals.cursors = this.input.keyboard.createCursorKeys();
         var cursors = LD.Globals.cursors;
@@ -437,66 +357,6 @@ LD.Scenes.Play = new Phaser.Class({
             }
         );
 
-        
-//         stars = this.physics.add.group({
-//             key: 'star',
-//             repeat: 12
-//             // setXY: { x: 10, y: 5, stepX: 70 }
-//         });
-
-//         stars.children.iterate(function (child) {
-
-//             var x = LD.Globals.randomNumber(10, LD.Maps.map.widthInPixels-10);
-//             var y = LD.Globals.randomNumber(10,LD.Maps.map.heightInPixels-10);
-//             child.setPosition(x,y);
-//             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-//             child.setName("star");
-
-//         });
-
-//         bombs = this.physics.add.group();
-
-        
-//         // LD.Messages.woodText = this.add.text(16, 16, 
-//         //                             LD.Messages.woodTextPrefix
-//         //                             + "0"
-//         //                             +LD.Messages.woodTextSuffix, 
-//         //                             { fontSize: '32px', fill: '#000' });
-
-//         LD.Messages.woodText = this.add.text(16, 16, 
-//                                     LD.Messages.woodTextPrefix
-//                                     + "0"
-//                                     +LD.Messages.woodTextSuffix,  
-//                                     { fontFamily: 'Anton', fontSize: '48px', fill: '#fff' });
-//         LD.Messages.woodText.setStroke('#000', 5); 
-
-//         LD.Messages.nothingText = this.add.text(16, 64, 
-//                                     LD.Messages.nothingTextPrefix
-//                                     + "0"
-//                                     +LD.Messages.nothingTextSuffix,  
-//                                     { fontFamily: 'Anton', fontSize: '48px', fill: '#fff' });
-//         LD.Messages.nothingText.setStroke('#000', 5); 
-
-//         // NT.Messages.woodText.setX( (NT.Globals.gameWidth - NT.Messages.introText.width)/2 ); 
-
-//         var layer1 = LD.Maps.layer1;
-
-//         // this.physics.add.collider(player, layer1);
-//         // this.physics.add.collider(stars, layer1);
-//         // this.physics.add.collider(bombs, layer1);
-//         // this.physics.add.collider(monsters, layer1);
-        
-//         this.physics.add.overlap(player, stars, this.collectStar, null, this);
-
-//         this.physics.add.collider(player, bombs, this.hitBomb, null, this);
-
-//         this.physics.add.collider(player, monsters, this.hitMonsters, null, this);
-//         this.physics.add.collider(LD.Player.sword, monsters, this.hitSword, null, this);
-        
-//         this.physics.add.overlap(voids, monsters, this.hitVoid, null, this);
-//         this.physics.add.overlap(voids, stars, this.hitVoid, null, this);
-
-        // this.physics.add.collider(player, fogLayer);
 
         this.physics.add.collider(player, layer);
 
