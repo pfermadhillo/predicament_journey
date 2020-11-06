@@ -172,6 +172,8 @@ LD.Player = {
         // player.anims.pause({frame: 4});
         // player.currentAnim.pause();
 
+        player.angle++;
+
         player.setVelocity(0);
         LD.Player.vel.x = 0;
         LD.Player.vel.y = 0;

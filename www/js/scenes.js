@@ -401,6 +401,9 @@ LD.Scenes.Play = new Phaser.Class({
         LD.Maps.fogs = LD.Maps.map.filterTiles(function (tile) {
             return (tile.index === LD.Maps.tiles.fog);
         });
+
+        player.angle++;
+
     }, 
 
     collideNode: function (player, tile)
@@ -420,6 +423,9 @@ LD.Scenes.Play = new Phaser.Class({
         });
 
         LD.Blocks.createNode(tileX,tileY);
+
+        player.angle++;
+
     },
 
 
@@ -450,6 +456,9 @@ LD.Scenes.Play = new Phaser.Class({
         }else{
 
         }
+
+        player.angle++;
+        
     }
 
     
