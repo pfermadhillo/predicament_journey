@@ -56,6 +56,69 @@ LD.Messages = {
     hpBarSize: {width:100,height:20},
 
 
+    statsText: {}, 
+
+    createStatsText: function(){
+      var player = LD.Player.player;
+
+      LD.Messages.statsText.blue = LD.Globals.game.add.text(80, 80, 
+        LD.Player.stats.blue + ":" + LD.Player.statsMax.blue, 
+        { align: 'right', fontSize: '48px', fill: '#00f' });
+      LD.Messages.statsText.blue.setStroke('#000', 5);
+      LD.Messages.statsText.blue.setZ( 2 );
+
+      LD.Messages.statsText.yellow = LD.Globals.game.add.text(80, 80, 
+        LD.Player.stats.yellow + ":" + LD.Player.statsMax.yellow, 
+        { align: 'right', fontSize: '48px', fill: '#ff0' });
+      LD.Messages.statsText.yellow.setStroke('#000', 5);
+      LD.Messages.statsText.yellow.setZ( 2 );
+
+      LD.Messages.statsText.red = LD.Globals.game.add.text(80, 80, 
+        LD.Player.stats.red + ":" + LD.Player.statsMax.red, 
+        { align: 'right', fontSize: '48px', fill: '#f00' });
+      LD.Messages.statsText.red.setStroke('#000', 5);
+      LD.Messages.statsText.red.setZ( 2 );
+    },
+
+    updateStatsText: function(){
+      // LD.Messages.statsText.blue.setText(LD.Player.stats.blue + ":" + LD.Player.statsMax.blue);
+      var stats = LD.Player.stats;
+      var statsMax = LD.Player.statsMax;
+      var player = LD.Player.player;
+      var blue = {};
+      var yellow = {};
+      var red = {};
+      if(LD.Messages.statsText && LD.Messages.statsText.blue){blue = LD.Messages.statsText.blue;}
+      if(LD.Messages.statsText && LD.Messages.statsText.yellow){yellow = LD.Messages.statsText.yellow;}
+      if(LD.Messages.statsText && LD.Messages.statsText.red){red = LD.Messages.statsText.red;}
+      var backoutX = LD.Globals.gameWidth * 0.49;
+      // var backoutY = LD.Globals.gameHeight * 0.4;
+      var backoutY = {
+        blue: LD.Globals.gameHeight * 0.45,
+        yellow: LD.Globals.gameHeight * 0.35,
+        red: LD.Globals.gameHeight * 0.25,
+      };
+
+      if(stats  && statsMax){
+        if(blue && blue.text && statsMax.blue){
+          console.log("updateStatsText(): ", blue, backoutX, backoutY);
+          blue.setPosition(player.x - backoutX, player.y - backoutY.blue);
+          blue.setText(stats.blue + ":" + statsMax.blue);
+        }
+        if(yellow && yellow.text && statsMax.yellow){
+          console.log("updateStatsText(): ", yellow, backoutX, backoutY);
+          yellow.setPosition(player.x - backoutX, player.y - backoutY.yellow);
+          yellow.setText(stats.yellow + ":" + statsMax.yellow);
+        }
+        if(red && red.text && statsMax.red){
+          console.log("updateStatsText(): ", red, backoutX, backoutY);
+          red.setPosition(player.x - backoutX, player.y - backoutY.red);
+          red.setText(stats.red + ":" + statsMax.red);
+        }
+      }
+    },
+
+
     savedTimeFormatted: function(){
         return LD.Messages.msToTime(LD.Messages.savedTime);
     },

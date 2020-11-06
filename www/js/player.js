@@ -3,7 +3,7 @@ if(LD === undefined) {
 }
 
 LD.Player = {
-    imgSize: {x:100,y:150},
+    imgSize: {x:25,y:25},
 
 	// unchangle properties go here
 	// totalHP: 10,
@@ -34,19 +34,30 @@ LD.Player = {
 		LD.Player.vel = {x:0,y:0};
 
   //       LD.Player.hpBarOffset.x = -LD.Messages.hpBarSize.width/2 +48;
+        LD.Player.stats = {
+            blue: 0,
+            yellow: 0,
+            red: 0
+        };
+        LD.Player.statsMax = {
+            blue: 20,
+            yellow: 20,
+            red: 20
+        };
 	},
 
 	createPlayer: function(x=0,y=0){
 		thisGame = LD.Globals.game;
 		LD.Player.refresh();
         var imgSize = LD.Player.imgSize;
+        // var startOffset = {x:imgSize.x/2,y:imgSize.y/2};
 
         LD.Player.rect = thisGame.add.rectangle(32 + x, 32 + y, 128, 128, 0xffff00);
         LD.Player.rect.setAlpha(0.1);
         LD.Player.rect.setInteractive();
 
-        LD.Player.player = thisGame.physics.add.sprite(32 + x, 32 + y, 'triangle');
-        LD.Player.player.setScale(0.4);
+        LD.Player.player = thisGame.physics.add.sprite(32 + x, 32 + y, 'player');
+        // LD.Player.player.setScale(0.4);
 
       
         LD.Player.player.setCollideWorldBounds(true);

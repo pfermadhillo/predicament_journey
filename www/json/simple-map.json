@@ -9,9 +9,9 @@
  "tileheight":32,
  "tilesets":[
         {
-         "columns":14,
+         "columns":10,
          "firstgid":1,
-         "image":"..\/img\/assets\/gridtiles.png",
+         "image":"..\/img\/assets\/quickie_tilemap.png",
          "imageheight":320,
          "imagewidth":448,
          "margin":0,
